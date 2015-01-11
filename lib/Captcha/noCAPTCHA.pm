@@ -39,7 +39,7 @@ EOT
 sub verify {
 	my ($self,$value,$ip) = @_;
 	my $params = $self->_build_request($value,$ip) || return;
-  my $http = HTTP::Tiny->new({timeout =>$self->api_timeout});
+  my $http = HTTP::Tiny->new(timeout => $self->api_timeout);
   my $response = $http->post_form( $self->api_url, $params );
 	return $self->_parse_response($response);
 }
