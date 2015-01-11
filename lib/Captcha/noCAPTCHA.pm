@@ -97,6 +97,19 @@ The following is example usage to verify captcha response.
 		# Tell user he/she needs to prove his/her humanity.
 	}
 
+=head1 METHODS
+
+=head2 html
+
+Accepts no arguments.  Returns CAPTCHA html to be rendered with form.
+
+=head2 verify($g_captcha_response,$users_ip_address?)
+
+Required $g_captcha_response. Input parameter from form containing g_captcha_response
+Optional $users_ip_address.
+
+Returns 1 if passed.
+
 =head1 FIELD OPTIONS
 
 Support for the following field options, over what is inherited from

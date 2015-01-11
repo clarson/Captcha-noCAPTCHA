@@ -22,6 +22,19 @@ The following is example usage to verify captcha response.
                 # Tell user he/she needs to prove his/her humanity.
         }
 
+# METHODS
+
+## html
+
+Accepts no arguments.  Returns CAPTCHA html to be rendered with form.
+
+## verify($g\_captcha\_response,$users\_ip\_address?)
+
+Required $g\_captcha\_response. Input parameter from form containing g\_captcha\_response
+Optional $users\_ip\_address.
+
+Returns 1 if passed.
+
 # FIELD OPTIONS
 
 Support for the following field options, over what is inherited from
