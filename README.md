@@ -1,6 +1,6 @@
 # NAME
 
-Simple implementation of Google's noCAPTCHA reCAPTCHA for perl
+Captcha::noCAPTCHA - Simple implementation of Google's noCAPTCHA reCAPTCHA for perl
 
 # SYNOPSIS
 
