@@ -70,7 +70,7 @@ sub _get_set {
 
 1;
 
-# ABSTRACT: Simple implementation of Google's noCAPTCHA reCAPTCHA for perl
+# ABSTRACT: Captcha-noCAPTCHA
 
 =head1 NAME
 
