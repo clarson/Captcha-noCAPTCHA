@@ -146,6 +146,10 @@ See it in action at L<https://www.httpuptime.com>
 
 Chuck Larson C<< <clarson@cpan.org> >>
 
+=head1 CONTRIBUTORS
+
+leejo C<< <leejo@cpan.org> >>
+
 =head1 COPYRIGHT & LICENSE
 
 Copyright 2015, Chuck Larson C<< <chuck+github@endcapsoftwware.com> >>

@@ -73,6 +73,10 @@ See it in action at [https://www.httpuptime.com](https://www.httpuptime.com)
 
 Chuck Larson `<clarson@cpan.org>`
 
+# CONTRIBUTORS
+
+leejo `<leejo@cpan.org>`
+
 # COPYRIGHT & LICENSE
 
 Copyright 2015, Chuck Larson `<chuck+github@endcapsoftwware.com>`
