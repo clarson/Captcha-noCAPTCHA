@@ -90,7 +90,7 @@ The following is example usage to verify captcha response.
 	my $cgi = CGI->new;
 	my $captcha_response = $cgi->param('g-recaptcha-response');
 
-	if ($cap->verify($captcha_response',$cgi->remote_host)) {
+	if ($cap->verify($captcha_response',$cgi->remote_addr)) {
 		# Process the rest of the form.
 	} else {
 		# Tell user he/she needs to prove his/her humanity.
