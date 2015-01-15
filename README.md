@@ -15,7 +15,7 @@ The following is example usage to verify captcha response.
 
         my $cap = Captcha::noCAPTCHA->new({site_key => "your site key",secret_key => "your secret key"});
         my $cgi = CGI->new;
-        my $captcha_response = $cgi->param('g-captcha-response');
+        my $captcha_response = $cgi->param('g-recaptcha-response');
 
         if ($cap->verify($captcha_response',$cgi->remote_host)) {
                 # Process the rest of the form.
