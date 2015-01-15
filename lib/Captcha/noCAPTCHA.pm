@@ -23,6 +23,7 @@ sub secret_key { return shift->_get_set('secret_key',@_); }
 sub theme { return shift->_get_set('theme',@_); }
 sub api_url { return shift->_get_set('api_url',@_); }
 sub api_timeout { return shift->_get_set('api_timeout',@_); }
+sub errors { return shift->{_attrs}->{errors}; }
 
 sub html {
 	my ($self) = @_;
@@ -38,7 +39,7 @@ EOT
 
 sub verify {
 	my ($self,$value,$ip) = @_;
-	my $params = $self->_build_request($value,$ip) || return;
+	my $params = $self->_build_request($value,$ip);
   my $http = HTTP::Tiny->new(timeout => $self->api_timeout);
   my $response = $http->post_form( $self->api_url, $params );
 	return $self->_parse_response($response);
@@ -46,19 +47,34 @@ sub verify {
 
 sub _build_request {
 	my ($self,$value,$ip) = @_;
-	return unless ($value);
-	my $args = {
-		secret   => $self->secret_key,
-		response => $value,
-	};
+	$self->{_attrs}->{errors} = [];
+	my $args = { secret => $self->secret_key };
+	$args->{response} = $value if ($value);
 	$args->{remoteip} = $ip if ($ip);
 	return $args;
 }
 
 sub _parse_response {
 	my ($self,$response) = @_;
-	return if (!$response || !ref($response) || !$response->{success} || !$response->{content});
-	my $json = eval {JSON::PP::decode_json($response->{content})} || return;
+	if (!$response || !ref($response)) {
+		$self->{_attrs}->{errors} = ['http-tiny-no-response'];
+		return;
+	}
+	if (!$response->{success}) {
+		my $status = $response->{status} || 0;
+		$self->{_attrs}->{errors} = [sprintf('status-code-%d',$status)];
+		return;
+	}
+	if (!$response->{content}) {
+		$self->{_attrs}->{errors} = ['no-content-returned'];
+		return;
+	}
+	my $json = eval {JSON::PP::decode_json($response->{content})};
+	if (!$json) {
+		$self->{_attrs}->{errors} = ['invalid-json'];
+		return;
+	}
+	$self->{_attrs}->{errors} = $json->{'error-codes'};
 	return $json->{success};
 }
 
@@ -107,7 +123,18 @@ Accepts no arguments.  Returns CAPTCHA html to be rendered with form.
 Required $g_captcha_response. Input parameter from form containing g_captcha_response
 Optional $users_ip_address.
 
-Returns 1 if passed.
+=head2 errors()
+
+Returns an array ref of errors if verify call fails. List of possible errors:
+
+missing-input-secret    The secret parameter is missing.
+invalid-input-secret	  The secret parameter is invalid or malformed.
+missing-input-response	The response parameter is missing.
+invalid-input-response	The response parameter is invalid or malformed.
+http-tiny-no-response   HTTP::Tiny did not return anything. No further information available.
+status-code-DDD         Where DDD is the status code returned from the server.
+no-content-returned     Call was successful, but no content was returned.
+
 
 =head1 FIELD OPTIONS
 

@@ -34,7 +34,17 @@ Accepts no arguments.  Returns CAPTCHA html to be rendered with form.
 Required $g\_captcha\_response. Input parameter from form containing g\_captcha\_response
 Optional $users\_ip\_address.
 
-Returns 1 if passed.
+## errors()
+
+Returns an array ref of errors if verify call fails. List of possible errors:
+
+missing-input-secret    The secret parameter is missing.
+invalid-input-secret	  The secret parameter is invalid or malformed.
+missing-input-response	The response parameter is missing.
+invalid-input-response	The response parameter is invalid or malformed.
+http-tiny-no-response   HTTP::Tiny did not return anything. No further information available.
+status-code-DDD         Where DDD is the status code returned from the server.
+no-content-returned     Call was successful, but no content was returned.
 
 # FIELD OPTIONS
 
