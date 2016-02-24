@@ -13,10 +13,10 @@ my $cap = Captcha::noCAPTCHA->new({
 
 my $expected=<<EOT;
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<div class="g-recaptcha" data-sitekey="fake site key" data-theme="dark"></div>
+<div class="g-recaptcha" data-sitekey="fake site key" data-theme="light"></div>
 EOT
 
-cmp_ok($expected,'cmp',$cap->html,'to make sure no unexpected output changes are made');
+is($cap->html,$expected,'make sure no unexpected output changes are made');
 
 $cap->theme('dark');
 my $text = $cap->html;
