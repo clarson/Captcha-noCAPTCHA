@@ -23,4 +23,10 @@ my $text = $cap->html;
 
 like($text,qr/data-theme="dark"/,'should render data-theme dark');
 
+unlike( $cap->html, qr/noscript/, 'noscript rendering is absent' );
+$cap->noscript(1);
+like( $cap->html, qr/noscript/, 'noscript rendering is present' );
+$cap->noscript(0);
+unlike( $cap->html, qr/noscript/, 'noscript rendering is absent' );
+
 done_testing();

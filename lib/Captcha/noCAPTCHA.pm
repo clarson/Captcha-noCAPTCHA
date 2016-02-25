@@ -13,6 +13,7 @@ sub new {
 	$self->site_key($args->{site_key}) || die "site_key required";
 	$self->secret_key($args->{secret_key}) || die "secret_key required";
 	$self->theme($args->{theme} || 'light');
+	$self->noscript($args->{noscript} || 0);
 	$self->api_url($args->{api_url} || 'https://www.google.com/recaptcha/api/siteverify');
 	$self->api_timeout($args->{api_timeout} || 10);
 	return $self;
@@ -21,6 +22,7 @@ sub new {
 sub site_key { return shift->_get_set('site_key',@_); }
 sub secret_key { return shift->_get_set('secret_key',@_); }
 sub theme { return shift->_get_set('theme',@_); }
+sub noscript { return shift->_get_set('noscript',@_); }
 sub api_url { return shift->_get_set('api_url',@_); }
 sub api_timeout { return shift->_get_set('api_timeout',@_); }
 sub errors { return shift->{_attrs}->{errors}; }
@@ -33,6 +35,23 @@ sub html {
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <div class="g-recaptcha" data-sitekey="$key" data-theme="$theme"></div>
 EOT
+
+	if ($self->noscript) {
+		$output.=<<EOT;
+<noscript>
+  <div style="width: 302px; height: 462px;">
+    <div style="width: 302px; height: 462px; position: relative;">
+      <div style="width: 302px; height: 422px; position: absolute;">
+        <iframe src="https://www.google.com/recaptcha/api/fallback?k=$key" frameborder="0" scrolling="no" style="width: 302px; height:422px; border-style: none;"></iframe>
+      </div>
+      <div style="width: 300px; height: 60px; border-style: none; bottom: 0px; left: 0px; margin: 0px; padding: 0px; right: 0px; background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px; position: absolute;">
+        <textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;"></textarea>
+      </div>
+    </div>
+  </div>
+</noscript>
+EOT
+	}
 
 	return $output;
 }
@@ -152,6 +171,10 @@ Required. The secret key you get when you create an account on L<https://www.goo
 =head2 theme
 
 Optional. The color theme of the widget. Options are 'light ' or 'dark' (Default: light)
+
+=head2 noscript
+
+Optional. When true, includes the <noscript> markup in the rendered html. (Default: false)
 
 =head2 api_url
 
