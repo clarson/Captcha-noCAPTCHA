@@ -63,6 +63,10 @@ Required. The secret key you get when you create an account on [https://www.goog
 
 Optional. The color theme of the widget. Options are 'light ' or 'dark' (Default: light)
 
+## noscript
+
+Optional. When true, includes the <noscript> markup in the rendered html. (Default: false)
+
 ## api\_url
 
 Optional. URL to the Google API. Defaults to https://www.google.com/recaptcha/api/siteverify
