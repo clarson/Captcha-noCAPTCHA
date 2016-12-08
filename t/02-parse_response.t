@@ -37,4 +37,12 @@ ok(not defined $cap->errors);
 ok($cap->_parse_response({success => 1,content => '{"success": true}'}));
 ok(not defined $cap->errors);
 
+ok(defined $cap->response);
+ok(ref $cap->response eq 'HASH');
+# note: can't use is_deeply to compare the response to a hashref because
+# booleans might be blessed JSON::PP::Boolean objects and is_deeply() doesn't
+# like that.
+ok(keys %{ $cap->response } == 1);
+ok($cap->response->{success} == 1);
+
 done_testing();

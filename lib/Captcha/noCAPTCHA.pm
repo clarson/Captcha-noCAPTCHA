@@ -26,6 +26,7 @@ sub noscript { return shift->_get_set('noscript',@_); }
 sub api_url { return shift->_get_set('api_url',@_); }
 sub api_timeout { return shift->_get_set('api_timeout',@_); }
 sub errors { return shift->{_attrs}->{errors}; }
+sub response { return shift->{_response}; }
 
 sub html {
 	my ($self) = @_;
@@ -93,6 +94,7 @@ sub _parse_response {
 		$self->{_attrs}->{errors} = ['invalid-json'];
 		return;
 	}
+	$self->{_response} = $json;
 	$self->{_attrs}->{errors} = $json->{'error-codes'};
 	return $json->{success};
 }
@@ -154,6 +156,9 @@ http-tiny-no-response   HTTP::Tiny did not return anything. No further informati
 status-code-DDD         Where DDD is the status code returned from the server.
 no-content-returned     Call was successful, but no content was returned.
 
+=head2 response()
+
+Returns the response hashref for the most recent captcha response.
 
 =head1 FIELD OPTIONS
 
