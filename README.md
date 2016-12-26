@@ -46,6 +46,10 @@ http-tiny-no-response   HTTP::Tiny did not return anything. No further informati
 status-code-DDD         Where DDD is the status code returned from the server.
 no-content-returned     Call was successful, but no content was returned.
 
+## response()
+
+Returns the response hashref for the most recent captcha response.
+
 # FIELD OPTIONS
 
 Support for the following field options, over what is inherited from
